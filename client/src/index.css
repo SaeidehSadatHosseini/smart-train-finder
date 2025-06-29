@@ -45,15 +45,18 @@ table {
 
 table, th, td {
   border: 1px solid #ccc;
+  word-wrap: break-word; /* allow breaking long words */
+  white-space: normal;   /* allow wrapping inside cells */
 }
 
 th, td {
   padding: 8px;
   text-align: left;
   font-size: 14px;
+  overflow-wrap: anywhere; /* aggressively break long content */
 }
 
-/* Responsive for mobile screens */
+/* Responsive adjustments for small screens */
 @media (max-width: 600px) {
   .trip-form {
     flex-direction: column; /* stack form vertically */
@@ -64,17 +67,16 @@ th, td {
   }
 
   .trip-form button {
-    width: 100%;          /* make button full width */
-    align-self: stretch;  /* stretch to container */
-  }
-
-  table, th, td {
-    font-size: 12px;
+    width: 100%;
+    align-self: stretch;
   }
 
   table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap; /* allow scrolling if too wide */
+    table-layout: fixed; /* force columns to be same width */
+    width: 100%;
+  }
+
+  th, td {
+    font-size: 12px;
   }
 }
