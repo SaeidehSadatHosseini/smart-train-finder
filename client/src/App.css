@@ -1,0 +1,146 @@
+/* Center the whole app in the viewport */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef3fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* The main app container */
+.app-container {
+  width: 90%;
+  max-width: 900px;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f0f4ff, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s;
+  text-align: center;
+}
+
+.app-container:hover {
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+h1 {
+  color: #0070f3;
+  margin-bottom: 1.5rem;
+}
+
+/* Form styling */
+form.trip-form {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+form.trip-form label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 0.95rem;
+}
+
+form.trip-form input,
+form.trip-form select {
+  margin-top: 0.3rem;
+  padding: 0.5rem 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+form.trip-form input:focus,
+form.trip-form select:focus {
+  border-color: #0070f3;
+  box-shadow: 0 0 6px rgba(0,112,243,0.3);
+  outline: none;
+}
+
+form.trip-form button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  background: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+form.trip-form button:hover {
+  background: #005bb5;
+  transform: scale(1.05);
+}
+
+
+input, select, button {
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: all 0.2s;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #0070f3;
+  box-shadow: 0 0 5px rgba(0,112,243,0.4);
+}
+
+button {
+  background: #0070f3;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background: #005bb5;
+  transform: scale(1.05);
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f6fc;
+  color: #333;
+}
+
+tr:hover {
+  background-color: #f0f8ff;
+}
+
+/* Error message */
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+form label {
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
