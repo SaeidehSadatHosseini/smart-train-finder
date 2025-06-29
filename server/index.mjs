@@ -3,9 +3,13 @@ import cors from 'cors';
 import fetch from 'node-fetch';
 
 const app = express();
+app.use(cors());
+
 const PORT = process.env.PORT || 5050;
 
-app.use(cors());
+app.get('/', (req, res) => {
+  res.send('✅ Backend is running');
+});
 
 app.get('/api/train/:from/:to/:date', async (req, res) => {
   const { from, to, date } = req.params;
@@ -20,7 +24,7 @@ app.get('/api/train/:from/:to/:date', async (req, res) => {
       console.error(`🚨 marudor API failed with ${response.status}, using fallback data`);
       return res.json([
         {
-          duration: 310, // 5h 10m
+          duration: 310,
           legs: [
             {
               origin: { name: from, departure: `${date}T08:45:00Z` },
@@ -30,7 +34,7 @@ app.get('/api/train/:from/:to/:date', async (req, res) => {
           ]
         },
         {
-          duration: 365, // 6h 5m
+          duration: 365,
           legs: [
             {
               origin: { name: from, departure: `${date}T10:00:00Z` },
@@ -48,12 +52,19 @@ app.get('/api/train/:from/:to/:date', async (req, res) => {
 
   } catch (err) {
     console.error('🚨 Fetch failed:', err.message);
-    res.status(500).json({ error: 'Internal server error' });
+    res.json([
+      {
+        duration: 310,
+        legs: [
+          {
+            origin: { name: from, departure: `${date}T08:45:00Z` },
+            destination: { name: to, arrival: `${date}T13:55:00Z` },
+            line: { operator: { name: "DB/NS" } }
+          }
+        ]
+      }
+    ]);
   }
-});
-
-app.get('/', (req, res) => {
-  res.send('✅ Backend with marudor.de is running');
 });
 
 app.listen(PORT, () => {
