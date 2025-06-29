@@ -27,16 +27,17 @@ function App() {
     setInData([]);
 
     try {
-      const res1 = await fetch(`https://smart-train-backend.onrender.com/api/train/...`);
+      const res1 = await fetch(`https://smart-train-finder-q03k.onrender.com/api/train/${encodeURIComponent(from)}/${encodeURIComponent(to)}/${date}`);
       const data1 = await res1.json();
       setOutData(data1);
 
       if (tripType === 'roundtrip') {
         const returnDate = addDays(date, nights);
-        const res2 = await fetch(`https://smart-train-backend.onrender.com/api/train/...`);
+        const res2 = await fetch(`https://smart-train-finder-q03k.onrender.com/api/train/${encodeURIComponent(to)}/${encodeURIComponent(from)}/${returnDate}`);
         const data2 = await res2.json();
         setInData(data2);
       }
+
     } catch {
       setError('Fetch failed');
     }
@@ -47,81 +48,97 @@ function App() {
     <div className="app-container">
       <h1>🚆 Smart Train Finder</h1>
       <form onSubmit={search} className="trip-form">
-  <label>
-    Trip Type:
-    <select value={tripType} onChange={(e) => setTripType(e.target.value)}>
-      <option>one-way</option>
-      <option>roundtrip</option>
-    </select>
-  </label>
-  <label>
-    From:
-    <input value={from} onChange={(e) => setFrom(e.target.value)} />
-  </label>
-  <label>
-    To:
-    <input value={to} onChange={(e) => setTo(e.target.value)} />
-  </label>
-  <label>
-    Date:
-    <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-  </label>
-  {tripType === 'roundtrip' && (
-    <label>
-      Stay:
-      <input 
-        type="number" min="1"
-        value={nights}
-        onChange={(e) => setNights(parseInt(e.target.value) || 1)}
-        style={{ width: '60px', marginLeft: '5px' }}
-      /> nights
-    </label>
-  )}
-  <button>Find Trains</button>
-</form>
+        <label>
+          Trip Type:
+          <select value={tripType} onChange={(e) => setTripType(e.target.value)}>
+            <option>one-way</option>
+            <option>roundtrip</option>
+          </select>
+        </label>
+        <label>
+          From:
+          <input value={from} onChange={(e) => setFrom(e.target.value)} />
+        </label>
+        <label>
+          To:
+          <input value={to} onChange={(e) => setTo(e.target.value)} />
+        </label>
+        <label>
+          Date:
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        </label>
+        {tripType === 'roundtrip' && (
+          <label>
+            Stay:
+            <input 
+              type="number" min="1"
+              value={nights}
+              onChange={(e) => setNights(parseInt(e.target.value) || 1)}
+              style={{ width: '60px', marginLeft: '5px' }}
+            /> nights
+          </label>
+        )}
+        <button>Find Trains</button>
+      </form>
 
       {loading && <p>Loading...</p>}
       {error && <p className="error">{error}</p>}
 
-      {outData.length > 0 && <div>
-        <h2>Outbound: {from} → {to} on {date}</h2>
-        <table>
-          <thead>
-            <tr><th>Duration</th><th>Dep</th><th>Arr</th><th>Changes</th><th>Operator</th></tr>
-          </thead>
-          <tbody>
-            {outData.map((j, i) => (
-              <tr key={i}>
-                <td>{Math.floor(j.duration/60)}h {j.duration%60}m</td>
-                <td>{j.legs[0].origin.name} ({j.legs[0].departure?.slice(11,16)})</td>
-                <td>{j.legs.at(-1).destination.name} ({j.legs.at(-1).arrival?.slice(11,16)})</td>
-                <td>{j.legs.length-1}</td>
-                <td>{j.legs[0].line?.operator?.name || 'N/A'}</td>
+      {outData.length > 0 && (
+        <div>
+          <h2>Outbound: {from} → {to} on {date}</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Duration</th>
+                <th>Dep</th>
+                <th>Arr</th>
+                <th>Changes</th>
+                <th>Operator</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>}
+            </thead>
+            <tbody>
+              {outData.map((j, i) => (
+                <tr key={i}>
+                  <td>{Math.floor(j.duration/60)}h {j.duration%60}m</td>
+                  <td>{j.legs[0].origin.name} ({j.legs[0].departure?.slice(11,16)})</td>
+                  <td>{j.legs.at(-1).destination.name} ({j.legs.at(-1).arrival?.slice(11,16)})</td>
+                  <td>{j.legs.length-1}</td>
+                  <td>{j.legs[0].line?.operator?.name || 'N/A'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
-      {inData.length > 0 && <div>
-        <h2>Return: {to} → {from} on {addDays(date, nights)}</h2>
-        <table>
-          <thead>
-            <tr><th>Duration</th><th>Dep</th><th>Arr</th><th>Changes</th><th>Operator</th></tr>
-          </thead>
-          <tbody>
-            {inData.map((j, i) => (
-              <tr key={i}>
-                <td>{Math.floor(j.duration/60)}h {j.duration%60}m</td>
-                <td>{j.legs[0].origin.name} ({j.legs[0].departure?.slice(11,16)})</td>
-                <td>{j.legs.at(-1).destination.name} ({j.legs.at(-1).arrival?.slice(11,16)})</td>
-                <td>{j.legs.length-1}</td>
-                <td>{j.legs[0].line?.operator?.name || 'N/A'}</td>
+      {inData.length > 0 && (
+        <div>
+          <h2>Return: {to} → {from} on {addDays(date, nights)}</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Duration</th>
+                <th>Dep</th>
+                <th>Arr</th>
+                <th>Changes</th>
+                <th>Operator</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>}
+            </thead>
+            <tbody>
+              {inData.map((j, i) => (
+                <tr key={i}>
+                  <td>{Math.floor(j.duration/60)}h {j.duration%60}m</td>
+                  <td>{j.legs[0].origin.name} ({j.legs[0].departure?.slice(11,16)})</td>
+                  <td>{j.legs.at(-1).destination.name} ({j.legs.at(-1).arrival?.slice(11,16)})</td>
+                  <td>{j.legs.length-1}</td>
+                  <td>{j.legs[0].line?.operator?.name || 'N/A'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   )
 }
