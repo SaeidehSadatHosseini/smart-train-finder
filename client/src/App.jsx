@@ -119,8 +119,8 @@ function App() {
             <thead>
               <tr>
                 <th>Duration</th>
-                <th>Dep</th>
-                <th>Arr</th>
+                <th>Departure</th>
+                <th>Arrival</th>
                 <th>Changes</th>
                 <th>Operator</th>
               </tr>
