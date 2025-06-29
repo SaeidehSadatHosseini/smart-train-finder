@@ -27,13 +27,13 @@ function App() {
     setInData([]);
 
     try {
-      const res1 = await fetch(`http://localhost:5050/api/train/${encodeURIComponent(from)}/${encodeURIComponent(to)}/${date}`);
+      const res1 = await fetch(`https://smart-train-backend.onrender.com/api/train/...`);
       const data1 = await res1.json();
       setOutData(data1);
 
       if (tripType === 'roundtrip') {
         const returnDate = addDays(date, nights);
-        const res2 = await fetch(`http://localhost:5050/api/train/${encodeURIComponent(to)}/${encodeURIComponent(from)}/${returnDate}`);
+        const res2 = await fetch(`https://smart-train-backend.onrender.com/api/train/...`);
         const data2 = await res2.json();
         setInData(data2);
       }
